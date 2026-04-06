@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma pergunta importante...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo para permitir scroll */
+            min-height: 100vh;
+            background-color: #fdf6f0;
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 40px 20px; /* Mais espaço nas bordas */
+            box-sizing: border-box;
+            /* overflow-x: hidden; Removi o hidden do Y para ela poder subir/descer se quiser */
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            margin-bottom: 100px; /* Espaço extra no fim para os botões não sumirem */
+        }
+
+        #poem-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background-color: #333;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            padding-bottom: 20px;
+        }
+
+        .actions.show { opacity: 1; }
+
+        .btn {
+            padding: 12px 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .btn-yes { background-color: #333; color: white; }
+        .btn-no { background-color: #fff; color: #777; z-index: 999; }
+
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="poem-text"></div><span class="cursor" id="cursor"></span>
+
+        <div class="actions" id="buttons-container">
+            <button class="btn btn-yes" onclick="aceitou()">Sim</button>
+            <button class="btn btn-no" id="btn-nao">Não</button>
+        </div>
+    </div>
+
+    <script>
+        // COLE SEU POEMA GRANDE AQUI
+        const meuPoema = `E lá vamos nós de novo, 
+Mais uma vez aqui estou,
+De volta as rimas,
+Pra dizer que agora ferrou,
+O coração de gelo
+Finalmente descongelou.
+
+Eu tava perdido a um tempo,
+Tinha desistido do amor,
+O foco tava em mim,
+Em tentar suportar a dor.
+
+Na corrida encontrei um refúgio,
+Eu queria melhorar,
+Foi nessa obsessão,
+Que consegui suportar,
+Mas o coração,
+Não conseguia superar.
+
+O tempo foi passando,
+Várias vitórias conquistei,
+Sempre a Cristo orando,
+Foi assim que passei, 
+Até que finalmente te encontrei.
+
+Foi na minha volta pro Shalon,
+Em uma quarta da paz,
+Eu tava bastante animado,
+Ja não aguentava mais.
+
+Mal sabia eu,
+La uma pessoa eu ia conhecer,
+Irmã de um amigo meu,
+Meio tímida, mas vou dizer,
+Gente boa de verdade,
+Não consegui esquecer.
+
+O insta dela pedi,
+De lá começamos a conversar,
+Reels aqui reels alí
+Comecei a desconfiar,
+Pra mim tinha algo de errado,
+Mas não conseguia decifrar.
+
+Não importava o que eu mandasse,
+Conversar com ela era fácil,
+Desde do aleatório ao profundo,
+Não tinha quem nos parasse,
+Foi aí que percebi,
+Que tava ficando difícil.
+
+Pode me chamar de carente,
+Mas uma conexão ali se criou,
+Ela sempre presente,
+Ela ali me fisgou,
+Eu tava apaixonado,
+Agora ferrou.
+
+Tentei usar a razão,
+Não queria agir na emoção,
+A Deus pedi direção,
+Que acalmasse meu coração,
+E se não fosse ela,
+Que logo recebesse o não.
+
+Diferente do que passava,
+O sentimento era recíproco,
+Ela também me amava,
+Isso me deixou louco.
+
+Bárbara Nycolle,
+Você roubou meu coração,
+A Deus dou o controle,
+Que ele nos dê direção,
+E a vocês eu pergunto
+Quer namorar comigo ou não?`;
+
+        const speed = 50;
+        const poemElement = document.getElementById('poem-text');
+        const buttonsContainer = document.getElementById('buttons-container');
+        const cursor = document.getElementById('cursor');
+        const btnNao = document.getElementById('btn-nao');
+
+        let i = 0;
+
+        function typeWriter() {
+            if (i < meuPoema.length) {
+                poemElement.textContent += meuPoema.charAt(i);
+                i++;
+                
+                // --- MÁGICA DO AUTO-SCROLL ---
+                // Faz a tela descer suavemente acompanhando a última letra
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(typeWriter, speed);
+            } else {
+                cursor.style.display = 'none';
+                buttonsContainer.classList.add('show');
+                // Scroll final para garantir que os botões apareçam
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
+        function moverBotao() {
+            const maxX = window.innerWidth - btnNao.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNao.offsetHeight - 20;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+        }
+
+        btnNao.addEventListener('mouseover', moverBotao);
+        btnNao.addEventListener('touchstart', (e) => { e.preventDefault(); moverBotao(); });
+
+        function aceitou() {
+            alert(" Obrigado, Te amo ♡ ");
+        }
+
+        window.onload = typeWriter;
+    </script>
+</body>
+</html>
