@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma pergunta importante...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo para permitir scroll */
+            min-height: 100vh;
+            background-color: #2b78e4;
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 40px 20px; /* Mais espaço nas bordas */
+            box-sizing: border-box;
+            /* overflow-x: hidden; Removi o hidden do Y para ela poder subir/descer se quiser */
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            margin-bottom: 100px; /* Espaço extra no fim para os botões não sumirem */
+        }
+
+        #poem-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background-color: #333;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            padding-bottom: 20px;
+        }
+
+        .actions.show { opacity: 1; }
+
+        .btn {
+            padding: 12px 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .btn-yes { background-color: #333; color: white; }
+        .btn-no { background-color: #fff; color: #777; z-index: 999; }
+
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <p style="font-size: 2em;">
+            /)_/)<br>
+            (,,>.<)  <(Pra você!)<br>
+            / >❤️</p>
+    </div>
+</html>
