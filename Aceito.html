@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -80,9 +79,84 @@
 <body>
 
     <div class="card">
-        <p style="font-size: 2em;">
-            /)_/)<br>
-            (,,>.<)  <(Pra você!)<br>
-            / >❤️</p>
+        <div id="poem-text"></div><span class="cursor" id="cursor"></span>
+
+        <div class="actions" id="buttons-container">
+            <button class="btn btn-yes" onclick="aceitou()">Sim</button>
+            <button class="btn btn-no" id="btn-nao">Não</button>
+        </div>
     </div>
+
+    <script>
+        // COLE SEU POEMA GRANDE AQUI
+        const meuPoema = `Eu nunca servi bem para falar de amor,
+Mas sinto falta no peito uma dor,
+A saudade bateu não sinto seu calor,
+Nossas almas trançadas de jeito encantador.
+
+Uma graça em minha vida dada por senhor,
+Faz o meu dia ter cada vez mais cor,
+Uma mensagem sua melhora demais meu humor,
+Pensar em te perder é assustador.
+
+Ao pensar no que vivemos,
+Lembro dos belos momentos,
+Das leves risadas,
+Das suas cantadas,
+Te quero em minha vida minha amada,
+Quero viver meus dias com você,
+Quero inteiramente te conhecer,
+Você me daria a oportunidade de contigo viver?`;
+
+        const speed = 50;
+        const poemElement = document.getElementById('poem-text');
+        const buttonsContainer = document.getElementById('buttons-container');
+        const cursor = document.getElementById('cursor');
+        const btnNao = document.getElementById('btn-nao');
+
+        let i = 0;
+
+        function typeWriter() {
+            if (i < meuPoema.length) {
+                poemElement.textContent += meuPoema.charAt(i);
+                i++;
+                
+                // --- MÁGICA DO AUTO-SCROLL ---
+                // Faz a tela descer suavemente acompanhando a última letra
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(typeWriter, speed);
+            } else {
+                cursor.style.display = 'none';
+                buttonsContainer.classList.add('show');
+                // Scroll final para garantir que os botões apareçam
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
+        function moverBotao() {
+            const maxX = window.innerWidth - btnNao.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNao.offsetHeight - 20;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+        }
+
+        btnNao.addEventListener('mouseover', moverBotao);
+        btnNao.addEventListener('touchstart', (e) => { e.preventDefault(); moverBotao(); });
+
+        function aceitou() {
+            alert(" Vamoooooooooooooo! ");
+            window.location.href = "https://youtu.be/2kTeFZ7PIdk?is=ilLFA0-UDwWOU9XJ";
+        }
+
+        window.onload = typeWriter;
+    </script>
+</body>
 </html>
